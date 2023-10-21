@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { Link,NavLink, useRouteLoaderData } from "react-router-dom";
+import { Link, NavLink, useRouteLoaderData } from "react-router-dom";
 import WalletContext from "../context/wallet-context";
 import styles from "./Nav.module.css";
 
@@ -20,7 +20,12 @@ const NavigationBar = () => {
     <nav className={styles.nav}>
       <div className={styles.leftSection}>
         <div className={styles.logo}>
-          <Link to="/"><img src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fk-plus_3b0baa.png" alt="Company Logo" /></Link>
+          <Link to="/">
+            <img
+              src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fk-plus_3b0baa.png"
+              alt="Company Logo"
+            />
+          </Link>
         </div>
         <ul className={styles.navLinks}>
           <li>
@@ -29,8 +34,8 @@ const NavigationBar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="products" activeClassName={styles.active}>
-              Products
+            <NavLink to="createpacket" activeClassName={styles.active}>
+              Create Red Packet
             </NavLink>
           </li>
         </ul>

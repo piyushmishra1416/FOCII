@@ -11,8 +11,6 @@ import "react-toastify/dist/ReactToastify.css";
 import WalletContext from "../../../context/wallet-context";
 import { parseUnits, formatUnits } from "ethers/lib/utils";
 import TokenABI from "../../../contract-ABI/TokenAbi";
-import styles from "./styles.module.css";
-
 function SendToken() {
   const [allowanceAmount, setAllowanceAmount] = useState("");
   const [giftAmount, SetGiftAmount] = useState(0);
@@ -93,6 +91,8 @@ function SendToken() {
       console.log(ctx.smartAccount.buildUserOp);
       let userOp = await ctx.smartAccount.buildUserOp([tx1]);
       console.log({ userOp });
+      userOp.verificationGasLimit = 52000;
+      console.log("Final", { userOp });
       const biconomyPaymaster = ctx.smartAccount.paymaster;
       let paymasterServiceData = {
         mode: PaymasterMode.SPONSORED,
@@ -126,110 +126,40 @@ function SendToken() {
     }
   };
   return (
-  //   <>
-  //   {console.log('styles',styles)}
-  //   <div className={styles.formSection}>
-  //     <p>Increase Allowance</p>
-  //     <form className={styles.form} onSubmit={increaseAllowance}>
-  //       <input
-  //         className={styles.input}
-  //         type="number"
-  //         id="amount"
-  //         value={allowanceAmount}
-  //         onChange={(event) => setAllowanceAmount(event.target.value)}
-  //       />
-  //       <button className={styles.button} type="submit">
-  //         Increase Allowance
-  //       </button>
-  //     </form>
-  //   </div>
-
-  //   <div className={styles.formSection}>
-  //     <p>Send tokens</p>
-  //     <form onSubmit={giftTokens}>
-  //       <label htmlFor="amount">Amount:</label>
-  //       <input
-  //         type="number"
-  //         id="amount"
-  //         value={giftAmount}
-  //         onChange={(event) => SetGiftAmount(event.target.value)}
-  //       />
-
-  //       <label htmlFor="address">Recipient Address:</label>
-  //       <input
-  //         type="text"
-  //         id="address"
-  //         value={targetAdd}
-  //         onChange={(event) => SetTargetAdd(event.target.value)}
-  //       />
-  //       <button className={styles.button} type="submit">
-  //         Send tokens
-  //       </button>
-  //     </form>
-  //   </div>
-  //   <ToastContainer
-  //       position="top-right"
-  //       autoClose={5000}
-  //       hideProgressBar={false}
-  //       newestOnTop={false}
-  //       closeOnClick
-  //       rtl={false}
-  //       pauseOnFocusLoss
-  //       draggable
-  //       pauseOnHover
-  //       theme="dark"
-  //     />
-  // </>
-  <>
-  <div className={styles.outerbox}>
-      <div className={styles.formSection}>
-        <p className={styles.formTitle}>Increase Allowance</p>
-        <form className={styles.form} onSubmit={increaseAllowance}>
-          <label className={styles.label} htmlFor="amount">
-            Amount:
-          </label>
+    <>
+      <p>
+        Increase allowance
+        <form onSubmit={increaseAllowance}>
           <input
-            className={styles.input}
             type="number"
             id="amount"
             value={allowanceAmount}
-            onChange={(event) => setAllowanceAmount(event.target.value)}
+            onChange={(event) => setAllowanceAmount(event.target.value)} // Update the state with input value
           />
-          <button className={styles.button} type="submit">
-            Increase Allowance
-          </button>
+          <button type="submit">Increase Allowance</button>
         </form>
-      </div>
-
-      <div className={styles.formSection}>
-        <p className={styles.formTitle}>Send tokens</p>
-        <form onSubmit={giftTokens} className={styles.form}>
-          <label className={styles.label} htmlFor="amount">
-            Amount:
-          </label>
+      </p>
+      <p>
+        Send tokens
+        <form onSubmit={giftTokens}>
+          <label htmlFor="amount">Amount:</label>
           <input
-            className={styles.input}
             type="number"
             id="amount"
             value={giftAmount}
             onChange={(event) => SetGiftAmount(event.target.value)}
           />
 
-          <label className={styles.label} htmlFor="address">
-            Recipient Address:
-          </label>
+          <label htmlFor="address">Recipient Address:</label>
           <input
-            className={styles.input}
             type="text"
             id="address"
             value={targetAdd}
             onChange={(event) => SetTargetAdd(event.target.value)}
           />
-          <button className={styles.button} type="submit">
-            Send tokens
-          </button>
+          <button type="submit">Send tokens</button>
         </form>
-      </div>
+      </p>
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -242,7 +172,6 @@ function SendToken() {
         pauseOnHover
         theme="dark"
       />
-    </div>
     </>
   );
 }
